@@ -20,7 +20,7 @@
                     <dt>ID::</dt>
                     <dd><?php echo $category->id; ?></dd>
                     <dt>Count::</dt>
-                    <dd> <?php count($products) ?></dd>
+                    <dd> <?php echo count($products) ?></dd>
                     </dl><span class="clear border_eee">
                     </span><a href="<?php echo $category->url; ?>" class="s_button_1 s_main_color_bgr"><span class="s_text">MORE</span></a><br></div></div>
                 <?php } ?>
