@@ -13,6 +13,8 @@
 
         public $image;
 
+        public $description;
+
         public function initialize()
         {
             $this->hasMany("id", "InCategory", "p_id");

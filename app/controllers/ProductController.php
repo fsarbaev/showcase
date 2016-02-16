@@ -58,8 +58,7 @@ class ProductController extends ControllerBase
 
     public function showAction($arg)
     {
-        $this->view->arg = $arg;
-        $product = Product::findFirst("url = '/showcase/".$arg."'");
+        $product = Product::findFirst("url = './".$arg."'");
         $this->view->product = $product;
         $this->view->cat = Category::findFirst($product->c_id);
 

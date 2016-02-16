@@ -9,7 +9,10 @@
                             <dl class="clearfix">
                             <dt>Availability</dt><dd>In Stock</dd>
                             <dt>Name</dt><dd><?php echo $product->name; ?></dd>
-                            <dt>Category</dt><dd><a href="<?php echo $cat->url; ?>" id="category_name"><?php echo $cat->name; ?></a></dd></dl>
+                            <dt>Category</dt><dd><a href="<?php echo $cat->url; ?>" id="category_name"><?php echo $cat->name; ?></a></dd>
+                            </dl>
+
         </div>
+        <dt>Description</dt><dd><p><?php echo $product->description; ?></p></dd>
     </div>
 </div>

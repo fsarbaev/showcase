@@ -1,39 +1,5 @@
 <script type="text/javascript">
-    sortbyname = 0;
-    sortbyprice = -1;
-    function changePage(pageNum) {
-                $.ajax({
-                    url: "{{ url()~c_name }}",
-                    global: false,
-                    type: "POST",
-                    data: ({page: pageNum, sortbyname:sortbyname, sortbyprice:sortbyprice}),
-                    dataType: "html",
-                    success: function (msg) {
-                        document.getElementById("content").innerHTML = msg;
-                    }
-                }
-        )
-    }
-    function sortByName() {
-        if (sortbyname == -1) sortbyname = 0;
-        else {
-            if(sortbyname == 0) sortbyname = 1;
-            else sortbyname = 0;
-        }
-        sortbyprice = -1;
-        changePage(1);
 
-    }
-
-    function sortByPrice() {
-        if (sortbyprice == -1) sortbyprice = 0;
-        else {
-            if (sortbyprice == 0) sortbyprice = 1;
-            else sortbyprice = 0;
-        }
-        sortbyname = -1;
-        changePage(1);
-    }
 </script>
 
 
@@ -47,9 +13,8 @@
 
 <div id="content" class="container_12">
     <p>Sort by:
-        <a onclick="sortByName()">name</a> ||
-        <a onclick="sortByPrice()">price</a>
-        <p><div id="cont">{{ message }}</div></p>
+        <a onclick="sortByName('{{ url()~c_name }}')">name</a> ||
+        <a onclick="sortByPrice('{{ url()~c_name }}')">price</a>
     <div id="category" class="grid_12">
         <div class="clear"></div>
         <div class="s_listing s_grid_view clearfix">
@@ -73,12 +38,12 @@
         <div class="pagination">
             <div class="links">
                 {% if page.current != 1 %}
-                    <a class="btn btn-default" onclick="changePage(1)"><i class="icon-fast-backward"></i> First</a>
-                    <a class="btn btn-default" onclick="changePage({{ page.before }})"><i class="icon-step-backward"></i> < </a>
+                    <a class="btn btn-default" onclick="changePage(1, '{{ url()~c_name }}')"><i class="icon-fast-backward"></i> First</a>
+                    <a class="btn btn-default" onclick="changePage({{ page.before }}, '{{ url()~c_name }}')"><i class="icon-step-backward"></i> < </a>
                 {% endif %}
                 {% if page.current != page.total_pages %}
-                    <a class="btn btn-default" onclick= "changePage({{ page.next }})"> <i class="icon-step-forward"></i> ></a>
-                    <a class="btn btn-default" onclick="changePage({{ page.last }})">Last</a>
+                    <a class="btn btn-default" onclick= "changePage({{ page.next }}, '{{ url()~c_name }}')"> <i class="icon-step-forward"></i> ></a>
+                    <a class="btn btn-default" onclick="changePage({{ page.last }}, '{{ url()~c_name }}')">Last</a>
                 {% endif %}
                 <span class="help-inline">{{ page.current }}/{{ page.total_pages }}</span>
             </div>

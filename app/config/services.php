@@ -48,8 +48,7 @@ $di->setShared('view', function () use ($config) {
             ));
 
             return $volt;
-        },
-        '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
+        }
     ));
 
     return $view;
@@ -68,34 +67,6 @@ $di->setShared('db', function () use ($config) {
     return new $class($dbConfig);
 });
 
-/**
- * If the configuration specify the use of metadata adapter use it or use memory otherwise
- */
-$di->setShared('modelsMetadata', function () {
-    return new MetaDataAdapter();
-});
-
-/**
- * Register the session flash service with the Twitter Bootstrap classes
- */
-$di->set('flash', function () {
-    return new Flash(array(
-        'error'   => 'alert alert-danger',
-        'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-        'warning' => 'alert alert-warning'
-    ));
-});
-
-/**
- * Start the session the first time some component request the session service
- */
-$di->setShared('session', function () {
-    $session = new SessionAdapter();
-    $session->start();
-
-    return $session;
-});
 
 /**
  * Add routing capabilities

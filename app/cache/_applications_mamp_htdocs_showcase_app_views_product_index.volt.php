@@ -1,53 +1,14 @@
-<script type="text/javascript">
-    sortbyname = 0;
-    sortbyprice = -1;
-    function changePage(pageNum) {
-        $.ajax({
-                    url: "<?php echo $this->url->get() . 'product'; ?>",
-                    global: false,
-                    type: "POST",
-                    data: ({page: pageNum, sortbyname:sortbyname, sortbyprice:sortbyprice}),
-                    dataType: "html",
-                    success: function (msg) {
-                        document.getElementById("content").innerHTML = msg;
-                    }
-                }
-        )
-    }
-    function sortByName() {
-        if (sortbyname == -1) sortbyname = 0;
-        else {
-            if(sortbyname == 0) sortbyname = 1;
-            else sortbyname = 0;
-        }
-        sortbyprice = -1;
-        changePage(1);
-
-    }
-
-    function sortByPrice() {
-        if (sortbyprice == -1) sortbyprice = 0;
-        else {
-            if (sortbyprice == 0) sortbyprice = 1;
-            else sortbyprice = 0;
-        }
-        sortbyname = -1;
-        changePage(1);
-    }
-</script>
 <div id="intro">
     <div id="intro_wrap">
       <div class="container_12">
         <h1>Products</h1>
-          <p><div id="cont"><?php echo $message; ?></div></p>
       </div>
     </div>
   </div>
 <div id="content" class="container_12">
     <p>Sort by:
-        <a onclick="sortByName()">name</a> ||
-        <a onclick="sortByPrice()">price</a>
-    <p><div id="cont"><?php echo $message; ?></div></p>
+        <a onclick="sortByName('<?php echo $this->url->get() . 'product'; ?>')">name</a> ||
+        <a onclick="sortByPrice('<?php echo $this->url->get() . 'product'; ?>')">price</a>
     <div id="order_history" class="grid_12">
 
           <div class="s_listing s_grid_view clearfix">
@@ -74,12 +35,12 @@
         <div class="pagination">
             <div class="links">
                 <?php if ($page->current != 1) { ?>
-                    <a class="btn btn-default" onclick="changePage(1)"><i class="icon-fast-backward"></i> First</a>
-                    <a class="btn btn-default" onclick="changePage(<?php echo $page->before; ?>)"><i class="icon-step-backward"></i> < </a>
+                    <a class="btn btn-default" onclick="changePage(1, '<?php echo $this->url->get() . 'product'; ?>')"><i class="icon-fast-backward"></i> First</a>
+                    <a class="btn btn-default" onclick="changePage(<?php echo $page->before; ?>, '<?php echo $this->url->get() . 'product'; ?>')"><i class="icon-step-backward"></i> < </a>
                 <?php } ?>
                 <?php if ($page->current != $page->total_pages) { ?>
-                    <a class="btn btn-default" onclick= "changePage(<?php echo $page->next; ?>)"> <i class="icon-step-forward"></i> ></a>
-                    <a class="btn btn-default" onclick="changePage(<?php echo $page->last; ?>)">Last</a>
+                    <a class="btn btn-default" onclick= "changePage(<?php echo $page->next; ?>, '<?php echo $this->url->get() . 'product'; ?>')"> <i class="icon-step-forward"></i> ></a>
+                    <a class="btn btn-default" onclick="changePage(<?php echo $page->last; ?>, '<?php echo $this->url->get() . 'product'; ?>')">Last</a>
                 <?php } ?>
                 <span class="help-inline"><?php echo $page->current; ?>/<?php echo $page->total_pages; ?></span>
             </div>

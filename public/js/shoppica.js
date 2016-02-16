@@ -76,6 +76,40 @@ jQuery( function($) {
       search_visibility = 0;
     }
   });
-
-
 });
+
+var sortbyname = 0;
+var sortbyprice = -1;
+function changePage(pageNum, url) {
+    $.ajax({
+            url: url,
+            global: false,
+            type: "POST",
+            data: ({page: pageNum, sortbyname:sortbyname, sortbyprice:sortbyprice}),
+            dataType: "html",
+            success: function (msg) {
+                document.getElementById("content").innerHTML = msg;
+            }
+        }
+    )
+}
+function sortByName(url) {
+    if (sortbyname == -1) sortbyname = 0;
+    else {
+        if(sortbyname == 0) sortbyname = 1;
+        else sortbyname = 0;
+    }
+    sortbyprice = -1;
+    changePage(1, url);
+
+}
+
+function sortByPrice(url) {
+    if (sortbyprice == -1) sortbyprice = 0;
+    else {
+        if (sortbyprice == 0) sortbyprice = 1;
+        else sortbyprice = 0;
+    }
+    sortbyname = -1;
+    changePage(1, url);
+}

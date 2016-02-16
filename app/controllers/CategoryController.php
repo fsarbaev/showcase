@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\Paginator\Adapter\NativeArray as Paginator;
+use Phalcon\Paginator\Adapter\Model as Paginator;
 use Phalcon\Mvc\View\Simple as SimpleView;
 
 class CategoryController extends ControllerBase
@@ -30,46 +30,43 @@ class CategoryController extends ControllerBase
             $page = $this->request->getQuery('page', 'int');
         }
 
-        $category = Category::findFirst("url = '/showcase/" . $c_name . "'");
-
-        function cmpByName($a, $b)
-        {
-            if ($a->name == $b->name) {
-                return 0;
-            }
-            return ($a->name < $b->name) ? -1 : 1;
-        }
-
-        function cmpByPrice($a, $b)
-        {
-            if ($a->price == $b->price) {
-                return 0;
-            }
-            return ($a->price > $b->price) ? -1 : 1;
-        }
-
-        $inCat = InCategory::find("c_id=" . $category->id);
-        $prod = array();
-        foreach ($inCat as $inc) {
-            array_push($prod, $inc->product);
-        }
-
+        $category = Category::findFirst("url = './" . $c_name . "'");
+        
         if($sortByName != -1){
-            usort($prod,"cmpByName");
-            if($sortByName != 0)  $prod = array_reverse($prod);
+            if($sortByName == 0) {
+                $products = $this->modelsManager->executeQuery("SELECT p.id, p.c_id, p.name,
+                    p.price, p.url, p.image, p.description AS product FROM product p, incategory ic
+                        WHERE ic.c_id = :c_id: AND ic.p_id = p.id ORDER BY p.name",
+                            array('c_id' => $category->id));
+            }else {
+                $products = $this->modelsManager->executeQuery("SELECT p.id, p.c_id, p.name,
+                    p.price, p.url, p.image, p.description AS product FROM product p, incategory ic
+                        WHERE ic.c_id = :c_id: AND ic.p_id = p.id ORDER BY p.name DESC",
+                    array('c_id' => $category->id));
+            }
         }
+
         if($sortByPrice != -1){
-            usort($prod, "cmpByPrice");
-            if($sortByPrice != 0)  $prod = array_reverse($prod);
+            if($sortByPrice == 0){
+                $products = $this->modelsManager->executeQuery("SELECT p.id, p.c_id, p.name,
+                    p.price, p.url, p.image, p.description AS product FROM product p, incategory ic
+                        WHERE ic.c_id = :c_id: AND ic.p_id = p.id ORDER BY p.price",
+                    array('c_id' => $category->id));
+            }else {
+                $products = $this->modelsManager->executeQuery("SELECT p.id, p.c_id, p.name,
+                    p.price, p.url, p.image, p.description AS product FROM product p, incategory ic
+                        WHERE ic.c_id = :c_id: AND ic.p_id = p.id ORDER BY p.price DESC",
+                    array('c_id' => $category->id));
+            }
         }
 
         $paginator = new Paginator(array(
-            "data" => $prod,
+            "data" => $products,
             "limit" => 9,
             "page" => $page
         ));
 
-        $params = array("page" => $paginator->getPaginate(), "products" => $prod, "cat_name" => $category->name,
+        $params = array("page" => $paginator->getPaginate(), "products" => $products, "cat_name" => $category->name,
             "c_name" => $c_name);
 
         $this->view->setVars($params);

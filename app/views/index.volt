@@ -2,20 +2,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Your Store</title>
 <meta name="description" content="My Store">
-<link rel="stylesheet" type="text/css" href="/showcase/stylesheet/960.css" media="all">
-<link rel="stylesheet" type="text/css" href="/showcase/stylesheet/screen.css" media="screen">
-<link rel="stylesheet" type="text/css" href="/showcase/stylesheet/color.css" media="screen">
+<link rel="stylesheet" type="text/css" href="./stylesheet/960.css" media="all">
+<link rel="stylesheet" type="text/css" href="./stylesheet/screen.css" media="screen">
+<link rel="stylesheet" type="text/css" href="./stylesheet/color.css" media="screen">
 <!--[if lt IE 9]>
-<link rel="stylesheet" type="text/css" href="/showcase/stylesheet/ie.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="./stylesheet/ie.css" media="screen" />
 <![endif]-->
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/showcase/js/shoppica.js"></script>
+<script type="text/javascript" src="./js/shoppica.js"></script>
 
-
-
-<style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+<style id="style-1-cropbar-clipper">
 .en-markup-crop-options {
     top: 18px !important;
     left: 50% !important;
@@ -28,7 +25,9 @@
 .en-markup-crop-options div div:first-of-type {
     margin-left: 0px !important;
 }
-</style></head>
+</style>
+
+</head>
 
 <body class="s_layout_fixed">
 
@@ -40,21 +39,34 @@
   <div id="header" class="container_12">
     <div class="grid_12">
 
-    	<a id="site_logo" href="/showcase">Shoppica store - Premium e-Commerce Theme</a>
+    	<a id="site_logo" href="./"></a>
 
 
       <div id="categories" class="s_nav">
         <ul>
-          <li id="menu_home"> <a href="/showcase">Home</a> </li>
+          <li id="menu_home"> <a href="./">Home</a> </li>
 
         <?php
-         $categorys = Category::find();
-         foreach($categorys as $category){
-            echo '<li><a href="'.$category->url.'">'.$category->name.'</a><div class="s_submenu"></div></li>';
-         }
-         ?>
-         <li><a href="/showcase/category">All categories</a><div class="s_submenu"></div></li>
-         <li><a href="/showcase/product">All products</a><div class="s_submenu"></div></li>
+         $categorys = Category::find(); ?>
+         {% for category in categorys %}
+             {% if category.parent_id == null %}
+                <li><a href="{{ category.url }}">{{ category.name }}</a>
+                    {% if category.child_id != null %}
+                         <div class="s_submenu">
+                             <?php $subcategory = Category::findFirst("id = ".$category->child_id);?>
+                             <h3>Subcategory</h3>
+                             <ul class="s_list_1 clearfix">
+                                 <li id="menu_26">
+                                     <a href="{{ subcategory.url }}">{{ subcategory.name }}</a>
+                                 </li>
+                             </ul>
+                         </div>
+                    {% endif %}
+                </li>
+             {% endif %}
+         {% endfor %}
+         <li><a href="./categories">All categories</a><div class="s_submenu"></div></li>
+         <li><a href="./products">All products</a><div class="s_submenu"></div></li>
         </ul>
       </div>
 

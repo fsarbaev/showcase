@@ -9,7 +9,7 @@ class InCategory extends ModelBase{
 
     public function getSource()
     {
-        return "in_category";
+        return "incategory";
     }
 
     public function initialize()

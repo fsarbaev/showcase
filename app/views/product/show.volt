@@ -9,7 +9,10 @@
                             <dl class="clearfix">
                             <dt>Availability</dt><dd>In Stock</dd>
                             <dt>Name</dt><dd>{{ product.name }}</dd>
-                            <dt>Category</dt><dd><a href="{{ cat.url }}" id="category_name">{{ cat.name }}</a></dd></dl>
+                            <dt>Category</dt><dd><a href="{{ cat.url }}" id="category_name">{{ cat.name }}</a></dd>
+                            </dl>
+
         </div>
+        <dt>Description</dt><dd><p>{{ product.description }}</p></dd>
     </div>
 </div>
