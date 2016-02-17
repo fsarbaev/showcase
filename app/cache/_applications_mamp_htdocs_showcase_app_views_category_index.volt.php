@@ -29,7 +29,6 @@
                     </span><a href="<?php echo $category->url; ?>" class="s_button_1 s_main_color_bgr"><span class="s_text">MORE</span></a><br></div></div>
                 <?php } ?>
           </div>
-
           <div class="clear"></div>
           <br>
 

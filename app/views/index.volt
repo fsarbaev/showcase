@@ -51,17 +51,21 @@
          {% for category in categorys %}
              {% if category.parent_id == null %}
                 <li><a href="{{ category.url }}">{{ category.name }}</a>
-                    {% if category.child_id != null %}
+                 <?php $subcategories = Category::find("parent_id = ".$category->id)?>
+                    {% for subcategory in subcategories %}
+                        {% if loop.first %}
                          <div class="s_submenu">
-                             <?php $subcategory = Category::findFirst("id = ".$category->child_id);?>
-                             <h3>Subcategory</h3>
+                             <h3>Subcategories</h3>
                              <ul class="s_list_1 clearfix">
+                         {% endif %}
                                  <li id="menu_26">
                                      <a href="{{ subcategory.url }}">{{ subcategory.name }}</a>
                                  </li>
+                         {% if loop.last %}
                              </ul>
                          </div>
-                    {% endif %}
+                         {% endif %}
+                    {% endfor %}
                 </li>
              {% endif %}
          {% endfor %}

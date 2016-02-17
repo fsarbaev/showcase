@@ -51,17 +51,21 @@
          <?php foreach ($categorys as $category) { ?>
              <?php if ($category->parent_id == null) { ?>
                 <li><a href="<?php echo $category->url; ?>"><?php echo $category->name; ?></a>
-                    <?php if ($category->child_id != null) { ?>
+                 <?php $subcategories = Category::find("parent_id = ".$category->id)?>
+                    <?php $v179094859535819839962iterator = $subcategories; $v179094859535819839962incr = 0; $v179094859535819839962loop = new stdClass(); $v179094859535819839962loop->length = count($v179094859535819839962iterator); $v179094859535819839962loop->index = 1; $v179094859535819839962loop->index0 = 1; $v179094859535819839962loop->revindex = $v179094859535819839962loop->length; $v179094859535819839962loop->revindex0 = $v179094859535819839962loop->length - 1; ?><?php foreach ($v179094859535819839962iterator as $subcategory) { ?><?php $v179094859535819839962loop->first = ($v179094859535819839962incr == 0); $v179094859535819839962loop->index = $v179094859535819839962incr + 1; $v179094859535819839962loop->index0 = $v179094859535819839962incr; $v179094859535819839962loop->revindex = $v179094859535819839962loop->length - $v179094859535819839962incr; $v179094859535819839962loop->revindex0 = $v179094859535819839962loop->length - ($v179094859535819839962incr + 1); $v179094859535819839962loop->last = ($v179094859535819839962incr == ($v179094859535819839962loop->length - 1)); ?>
+                        <?php if ($v179094859535819839962loop->first) { ?>
                          <div class="s_submenu">
-                             <?php $subcategory = Category::findFirst("id = ".$category->child_id);?>
-                             <h3>Subcategory</h3>
+                             <h3>Subcategories</h3>
                              <ul class="s_list_1 clearfix">
+                         <?php } ?>
                                  <li id="menu_26">
                                      <a href="<?php echo $subcategory->url; ?>"><?php echo $subcategory->name; ?></a>
                                  </li>
+                         <?php if ($v179094859535819839962loop->last) { ?>
                              </ul>
                          </div>
-                    <?php } ?>
+                         <?php } ?>
+                    <?php $v179094859535819839962incr++; } ?>
                 </li>
              <?php } ?>
          <?php } ?>
